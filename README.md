@@ -24,7 +24,10 @@
 ## （二）线性表
  
 ### 线性结构的特点、线性表的定义，线性表的基本操作；
+
 [list定义](./List/List.h)
+
+线性表的顺序存**储**结构是一种*随机存**取***的存储结构,线性表的链式存储结构是一种*顺序存**取***的存储结构.
 
 ### 线性表的顺序存储结构，对其进行检索、插入和删除等操作；
  
@@ -36,6 +39,21 @@
  
 ### 队列的结构、特点及其存储方式(顺序存储与链接存储)和基本操作的实现算法。
 [循环队列实现](./List/CircularQueue.h)
+
+```c
+// 初始化
+Q.rear=Q.front=0;
+
+// 判断空
+Q.rear==Q.front;
+
+// 判断队满
+(Q.rear+1)%MAXSIZE==Q.front;
+
+// 队列长度
+(Q.rear+MAXSIZE-Q.front)%MAXSIZE;
+
+```
  
 ### 递归的基本概念和实现原理以及用递归的思想描述问题和书写算法的方法；
  
@@ -105,10 +123,51 @@
 
     实现: [递归实现](./Tree/TreeNode.h#L51)
 
+    非递归实现
+
+    ```c
+    void PreOrder2(BiTree t){
+        InitStack(S);
+        BiTree p = t;
+        while(p||!IsEmpty(S)){
+            if(p){
+                visit(p);
+                Push(S,p);
+                p = p->lchild;
+            }
+            else{
+                Pop(S,p);
+                p=p->rchild;
+            }
+        }
+    }
+    ```
+
 2. 中序遍历(InOrder)
 
     顺序:中序遍历左子树,根节点,中序遍历右子树
+
     实现: [递归实现](./Tree/TreeNode.h#L41)
+
+    非递归实现
+
+    ```c
+    void InOrder2(BiTree t){
+        InitStack(S);
+        BiTree p = t;
+        while(p||!IsEmpty(S)){
+            if(p){
+                Push(S,p);
+                p = p->lchild;
+            }
+            else{
+                Pop(S,p);
+                visit(p);
+                p=p->rchild;
+            }
+        }
+    }
+    ```
 
 3. 后序遍历(PostOrder)
 
@@ -116,9 +175,76 @@
     
     实现: [递归实现](./Tree/TreeNode.h#L62)
 
+    非递归实现:
+
+    ```c
+    void PostOrder(BiTree T){
+        InitStack(S);
+        BiTree p = T;
+        BiTree r = NULL:
+        while(p||!IsEmpty(S)){
+            if(p){
+                push(S,p);
+                p = p->lchild;
+            }
+            else{
+                GetTop(S,p);
+                if(p->rchild&&p->rchild!=r){
+                    p=p->rchild;
+                    push(S,p);
+                    p=p->lchild;
+                }
+                else{
+                    pop(S,p);
+                    visit(p->data);
+                    r=p;
+                    p=NULL;
+                }
+            }
+        }
+    }
+    ````
+
 
 根据先序遍历和中序遍历或后序遍历和中序遍历可以确定一颗二叉树,而**先序和后序则不能确定一颗二叉树**
 
+#### 层次遍历
+
+```c
+void LevelOrder(BiTree T){
+    InitQueue(Q);
+    BiTree p;
+    EnQueue(Q,T);
+    while (!IsEmpty(Q)){
+        Dequeue(Q,p);
+        visit(p);
+        if(p->lchild!=NULL){
+            EnQueue(Q,p->lchild);
+        }
+        if(p->rchild!=NULL){
+            EnQueue(Q,p->rchild);
+        }
+    }
+}
+```
+
+#### 计算树的深度
+
+```c
+int BitDepth(BiTree T){
+    if (T==NULL) 
+        return 0;
+    else{
+        ldep = Btdepth(T->lchild);
+        rdep = Btdepth(T->rchild);
+        if(ldep>rdep)
+            return ldep+1;
+        else
+            return rdep+1;
+    }
+
+}
+```
  
 ### 线索化二叉树的结构和基本操作；
  

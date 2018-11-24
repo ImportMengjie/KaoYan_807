@@ -94,6 +94,19 @@ Q.rear==Q.front;
 
 #### 二叉树的特点
 
+N<sub>0</sub>表示叶子节点数,N<sub>2</sub>表示度为2的节点则N<sub>0</sub>=N<sub>2</sub>+1
+
+故在有N个节点的二叉树中,有N+1个空指针;空指针数 = 2*N<sub>0</sub>+N<sub>1</sub>=N<sub>0</sub>+N<sub>1</sub>+N<sub>2</sub>+1
+
+#### 二叉树的数组表示方法
+
+If a complete binary tree with n nodes is represented sequentially, then for any node with index i, $1 \leq i \leq n$, we have
+
+1. parent(i) is at int(i/2) if $i \neq 1$. If i = 1, i is at the root and has no parent.
+2. LeftChild(i) is at 2i if $2i \leq n$. If $2i \geq n$, then i has no left child.
+3. RightChild(i) is at 2i+1 if $2i+1 \leq n$. If $2i+1 \geq n$, then i has no right child.
+
+
 ##### 二叉树与度为2的树的区别
 
 1. 度为2的树至少含有三个节点才可以,二叉树则可为空
@@ -247,8 +260,45 @@ int BitDepth(BiTree T){
 ```
  
 ### 线索化二叉树的结构和基本操作；
+
+格式:
+
+| ltag| lchild|data|rchild|rtag|
+|:----:|:----:|:----:|:----:|:----:|
+| 1:指向节点的前驱| | | | 1:指向节点的后继|
  
 ### 森林的定义和存储结构，森林的遍历等方法的实现；
+
+#### 森林存储结构
+
+1. 双亲表示法
+
+![双亲表示法](images/森林双亲表示法.png)
+
+2. 孩子表示法
+
+![孩子表示法](images/孩子表示法.png)
+
+3. 孩子兄弟表示法
+
+![孩子兄弟表示法](images/孩子兄弟表示法.png)
+
+#### 森林=>二叉树
+
+用孩子兄弟表示法将树=>二叉树(由于根节点没有兄弟所以没有右子树)=>将森林的多颗树连在一起
+
+例:
+
+![森林=>二叉树](images/森林转二叉树例子.png)
+
+#### 森林遍历方法
+
+树和森林遍历与二叉树遍历的对应关系
+
+|树|森林|二叉树(将森林或树转换成的二叉树)|
+|:----:|:---:|:----:|
+|先根遍历|先序遍历|先序遍历|
+|后根遍历|中序遍历|中序遍历|
 
 ### 基于霍夫曼树生成霍夫曼编码的方法；
 

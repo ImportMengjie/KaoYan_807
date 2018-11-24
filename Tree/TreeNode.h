@@ -69,4 +69,22 @@ void PostOrder(TreeNode *tree) {
     }
 }
 
+#include <stack>
+void PreOrder2(TreeNode *tree){
+    std::stack<TreeNode*> stack = std::stack<TreeNode*>();
+    TreeNode *p = tree;
+//    stack.push(tree);
+    while (p||!stack.empty()){
+        if (p!=NULL){
+            std::cout<<p->data<<'\t';
+            stack.push(p);
+            p = p->lChild;
+        }
+        else{
+            p = stack.top();
+            stack.pop();
+            p = p->rChild;
+        }
+    }
+}
 #endif //TREE_TREE_H

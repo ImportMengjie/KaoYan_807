@@ -15,6 +15,8 @@ int main() {
     PreOrder(ptree);
     cout<<"\nPostOrder:";
     PostOrder(ptree);
+    cout<<"\nPreOrder2:";
+    PreOrder2(ptree);
 
     return 0;
 }

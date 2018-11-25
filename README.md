@@ -302,13 +302,79 @@ int BitDepth(BiTree T){
 
 ### 基于霍夫曼树生成霍夫曼编码的方法；
 
+![huffman](images/huffman1.bmp)
+![huffman](images/huffman2.bmp)
+
 ### AVL树的定义和特点以及AVL树调整操作的实现原理；
 
+#### AVL树的定义
+
+节点的平衡因子是它的左子树的高度减去它的右子树的高度（有时相反）。带有平衡因子1、0或 -1的节点被认为是平衡的。
+
+#### 调整操作
+
+1. LR型
+
+![LR](images/AVLtree_LR.png)
+
+2. LL型
+
+![LL](images/AVLtree_LL.png)
+
+3. RR型
+
+![RR](images/AVLtree_RR.png)
+
+4. RL型
+
+![RL](images/AVLtree_RL.png)
+
 ### 最优二叉树的构造原理和相关算法。
+
+```c
+treenode *huffmanTree(int n) {  //n为叶子个数
+    int index = 0;        
+    for (int i = 0; i < n; ++i) {  //将每一个叶子节点建成一棵树，放入数组tree[]中
+        treenode *p = new treenode;
+        p->data = arr[i];   //arr[]中放着叶子节点的权值
+        p->lch = NULL;
+        p->rch = NULL;
+        tree[index++] = p;
+    }
+    treenode *root = NULL;   //定义最优二叉树的根
+    for (int i = 0; i < n - 1; ++i) { //每次取arr[]中未使用的最小两个值
+        sort(arr + i, arr + n);
+        treenode *ch1 = NULL, *ch2 = NULL;
+        for (int j = 0; j < index; ++j) {//在数组tree[]中找到这两个值，建立新的节点
+            if(tree[j]->data == arr[i])
+                ch1 = tree[j];
+            if(tree[j]->data == arr[i + 1])
+                ch2 = tree[j];
+            if(ch1 && ch2) break;
+        }
+        treenode *p = new treenode;//建立新的节点，存入数组tree[]中
+        p->data = ch1->data + ch2->data;
+        p->lch = ch1;
+        p->rch = ch2;
+        root = p;//更新根，直到建立完成
+        tree[index++] = p;
+        arr[i + 1] = p->data;//并将这个节点的权值传入数组arr[]中
+    }
+    return root;
+}
+
+```
 
 ## （六）图
 
 ### 图的各种基本概念和各种存储方式；
+
+#### 图的基本概念
+
+1. 有向图
+2. 无向图
+
+#### 各种存储方式
 
 ### 图的两种搜索方法和图连的连通性；
 

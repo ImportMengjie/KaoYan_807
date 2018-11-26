@@ -273,15 +273,15 @@ int BitDepth(BiTree T){
 
 1. 双亲表示法
 
-![双亲表示法](images/森林双亲表示法.png)
+    ![双亲表示法](images/森林双亲表示法.png)
 
 2. 孩子表示法
 
-![孩子表示法](images/孩子表示法.png)
+    ![孩子表示法](images/孩子表示法.png)
 
 3. 孩子兄弟表示法
 
-![孩子兄弟表示法](images/孩子兄弟表示法.png)
+    ![孩子兄弟表示法](images/孩子兄弟表示法.png)
 
 #### 森林=>二叉树
 
@@ -315,19 +315,19 @@ int BitDepth(BiTree T){
 
 1. LR型
 
-![LR](images/AVLtree_LR.png)
+    ![LR](images/AVLtree_LR.png)
 
 2. LL型
 
-![LL](images/AVLtree_LL.png)
+    ![LL](images/AVLtree_LL.png)
 
 3. RR型
 
-![RR](images/AVLtree_RR.png)
+    ![RR](images/AVLtree_RR.png)
 
 4. RL型
 
-![RL](images/AVLtree_RL.png)
+    ![RL](images/AVLtree_RL.png)
 
 ### 最优二叉树的构造原理和相关算法。
 
@@ -372,15 +372,190 @@ treenode *huffmanTree(int n) {  //n为叶子个数
 #### 图的基本概念
 
 1. 有向图
+
+    ![有向图](/images/有向图.png)
+
+    表示法:
+
+    V(G3)={0,1,2} 
+
+    E(G3)={<0,1>,<1,0>,<1,2>}
+
+    强连通: 节点v到w和w到v都有**路径**
+
+    强连通分量: 极大强连通子图
+
+    入度,出度: 入度和=出度和=边数
+
 2. 无向图
+
+    ![无向图](/images/无向图.png)
+
+    表示法
+
+    V(G1)={0,1,2,3}
+
+    E(G1)={(0,1),(0,2),(0,3),(1,2),(1,3),(2,3)}
+
+    连通: 从v到w的**路径**存在,则v和w是连通的.
+
+    连通图: 图G的任意两个顶点都是连通的.
+
+    连通分量: 极大连通子图; 连通图只有一个连通分量; 非连通图有多个连通分量
+
+    极大连通子图: 要求连通子图包含其所有的边
+
+    极小连通子图: 保持连通又使得边数最少(生成树)
+
+3. 完全图
+
+    任意两个顶点都存在边.
+
+    - n个顶点的有向图=>n(n-1)条边
+    - n个顶点的无向图=>n(n-1)/2条边
+
+4. 稀疏图|E|<|V|*log|V|和稠密图
 
 #### 各种存储方式
 
+1. 邻接矩阵法
+
+    ![邻接矩阵法](images/邻接矩阵法.png)
+
+2. 邻接表法
+
+    ![邻接表法](images/邻接表法.png)
+
+    定义:
+
+    ```c
+    ＃define   MaxVerNum  100          /*最大顶点数为100*/
+    // 邻接表类型 ：
+    typedef  struct  ArcNode
+    { 
+        int  adjvex;              /*邻接点域*/
+        InfoType  *Info;     /*表示边上信息的域info*/
+        struct ArcNode * next;    /*指向下一个邻接点的指针域*/
+    } ArcNode ;    
+
+    // 表头结点类型 ：
+    typedef  struct  Vnode
+    {
+        VertexType   vertex;          /*顶点域*/
+        ArcNode  * firstedge;        /*边表头指针*/
+    } Vnode,  AdjList [MaxVertexNum];   
+
+    // 图的类型 ： 
+    typedef   struct
+    {
+        AdjList   vertices;         /*邻接表*/
+        int   vexnum,  arcnum;          /*顶点数和边数*/
+    } ALGraph;      /*ALGraph是以邻接表方式存储的图类型*/
+
+    ```
+
 ### 图的两种搜索方法和图连的连通性；
+
+#### 图的两种搜索方法
+
+![DFS_BFS_sample](images/DFS_BFS_sample.png)
+
+两个基本函数
+
+```c
+int FirstAdjVex(ALGraph G, int v)
+{  
+    // 返回G中第v个顶点的第1个邻接点的序号。如果v无邻接点，返回0。
+    if(!G.vertices[v].firstarc) 
+        return(0);
+    else 
+        return(G.vertices[v].firstarc->adjvex);
+}
+
+int NextAdjVex(ALGraph G, int v, int w)
+{  
+    // 返回G中第v个顶点的相对于顶点w的下一个邻接点的序号。
+    // 如果v无相对于顶点w的下一个邻接点，返回0。
+    ArcNode *p;
+    p=G.vetrices[v].firstarc;
+    while( p && p->adjvex!=w)
+        p=p->nextarc;
+    if(p->adjvex==w && p->nextarc)
+        return(p->nextarc->adjvex);
+    else 
+        return(0);
+}
+
+```
+
+1. DFS(深度优先)
+
+    ```c
+
+    void DFSTraverse( Graph G ) 
+    {
+        bool visited[MAX] ;  //用于标识结点是否已被访问过     
+        for ( k=1; k<=G.vexnum; ++k ) 
+            visited[k] = FALSE;
+        for ( k=1; k<=G.vexnum; ++k )
+            if ( !visited[ k ] )
+                DFS(G, k);
+    }
+
+    void DFS( Graph G,  int v )
+    {  
+        visited[v] = TRUE;  
+        VISIT( v );  // 访问图G中第v个顶点
+        for (w=FirstAdjVex(G, v); w>0; w=NextAdjVex(G, v, w)) 
+            if ( !visited[ w ] )
+                DFS(G, w);
+    }
+
+    ```
+
+2. BFS(广度优先)
+
+    ```c
+
+    void BFSTraverse( Graph G ) 
+    { 
+        bool visited[MAX] ;  //用于标识结点是否已被访问过     
+        for (v=1; v<=G.vexnum; ++v)  
+            visited[v] = FALSE;
+        InitQueue(Q);
+        for(v=1; v<=G.vexnum; ++v)
+            if ( !visited[v] ) 
+            {  
+                visited[v]=TRUE;
+                VISIT(v);
+                EnQueue(Q, v);
+                while (!EmptyQueue(Q))
+                { 
+                    DeQueue(Q,u); 
+                    for(w=FirstAdjVex(G, u); w>0; w=NextAdjVex(G, u, w))
+                        if( !visited[w] )  
+                        {  
+                            visited[w]=TRUE; 
+                            VISIT(w); 
+                            EnQueue(Q, w); 
+                        }
+                } // end while
+            } // end if
+    }
+
+    ```
 
 ### 两种最小生成树的生成方法；
 
+1. Prim 算法
+
+2. Kruskal 算法
+
 ### 各种求最短路径的方法；
+
+1. Dijkstra 算法
+
+2. Floyed 算法
 
 ### 用顶点表示活动和用边表示活动的两种网络结构特点和相关操作的实现算法。
 

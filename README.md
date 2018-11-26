@@ -549,19 +549,53 @@ int NextAdjVex(ALGraph G, int v, int w)
 
 1. Prim 算法
 
+    ![Prim](images/prim.png)
+
 2. Kruskal 算法
+
+    ![Kruskal](images/kruskal.png)
 
 ### 各种求最短路径的方法；
 
 1. Dijkstra 算法
 
+    ![Dijkstra](images/dijkstra.png)
+
 2. Floyed 算法
+
+    ![Floyed](images/floyd.png)
 
 ### 用顶点表示活动和用边表示活动的两种网络结构特点和相关操作的实现算法。
 
+1. AOV-Network (Activity on Vertex)    
+
+    顶点表示活动,边<v<sub>1</sub>,v<sub>2</sub>>表示活动v1先于活动v2,必须是有向无环图.(依赖关系)
+
+    拓扑排序:
+
+        1. 从图中选择一个没有前驱的节点并输出
+        2. 从图中删除该节点和以它为起点的有向边
+        3. 重复步骤1,2
+
+    ![拓扑排序](images/Topological_sort.png)
+
+2. AOE-Network (Activity on Edge)
+
+    顶点表示事件,有向边表示活动,边上的权重表示完成该活动的开销.(软件项目安排)
+
+    关键路径: 从起点到终点的所有路径中,具有最大的路径长度的路径
+
+        1. 求AOE中所有事件的最早发生时间ve():从前往后计算
+        2. 求AOE中所有事件的最晚发生时间vl():从后往前计算
+        3. 求AOE中所有活动的最早开始时间e():边的起点的顶点的最早发生时间
+        4. 求AOE中所有活动的最晚开始时间l():边的终点的顶点的最晚发生时间-边的权重
+        5. 求AOE中所有活动的差额d(),找出d()=0构成关键路径
+
+    ![critical_path](images/critical_path.png)
+
 ## （七）排序
 
-### 插入排序法(含折半插入排序法)、选择排序法、泡排序法、快速排序法、堆积排序法、归并排序、基数排序等排序方法排序的原理、规律和特点；
+### 插入排序法(含折半插入排序法)、选择排序法、冒泡排序法、快速排序法、堆积排序法、归并排序、基数排序等排序方法排序的原理、规律和特点；
 
 ### 各种排序算法的时空复杂度的简单分析。
 

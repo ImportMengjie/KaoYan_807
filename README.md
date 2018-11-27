@@ -86,11 +86,11 @@ Q.rear==Q.front;
 
 3. 高度 
    
-   从叶节点开始自底向上逐层累加
+    从叶节点开始自底向上逐层累加
 
 4. 树的高度(深度) 
 
-   树中节点最大的层数
+    树中节点最大的层数
 
 #### 二叉树的特点
 
@@ -596,6 +596,117 @@ int NextAdjVex(ALGraph G, int v, int w)
 ## （七）排序
 
 ### 插入排序法(含折半插入排序法)、选择排序法、冒泡排序法、快速排序法、堆积排序法、归并排序、基数排序等排序方法排序的原理、规律和特点；
+
+1. 插入排序
+
+    ```c
+
+    // 直接插入排序
+    void InsertSort(int a[], int length){
+        /*
+        * 插入排序
+        * 从头开始保证走过的路有序,每加入一个元素就将其插入到正确的位置
+        */
+        int j,i;
+        for(i=2;i<length;i++){
+            if (a[i]<a[i-1]){
+                a[0] = a[i];
+                for(j=i-1;a[0]<a[j]; j--)
+                    a[j+1] = a[j];
+                a[j+1] = a[0];
+            }
+        }
+    }
+
+    // 折半插入排序
+    void InsertSort(ElemType A[], int n){
+        int i,j,low,high,mid;
+        for(i=2;i<=n;i++){
+            A[0]=A[i];
+            low=1;
+            high=i-1;
+            while(low<=high){
+                mid=(low+high)/2
+                if(A[mid].key>A[0].key)
+                    high = mid-1; // 查找左半子树
+                else
+                    low=mid+1 // 查找右半子树
+            }
+            for(j=i-1;j>=high+1;--j)
+                A[j+1]=A[j];
+            A[high+1]=A[0];
+        }
+    }
+
+    // 希尔排序
+    void ShellSort(SqList &L,int dlta[],int t)
+    { 
+        // 按增量序列dlta[0..t-1]对顺序表L作希尔排序。算法.5
+        int k;
+        for(k=0;k<t;++k){
+            ShellInsert(L,dlta[k]); // 一趟增量为dlta[k]的插入排序
+            printf("第%d趟排序结果: ",k+1);
+            print(L);
+        }
+    }
+    void ShellInsert(SqList &L,int dk){ 
+        // 对顺序表L作一趟希尔插入排//序。本算法是和一趟直接插入排序相比，
+        // 作了以下修改：
+        // 1.前后记录位置的增量是dk，而不是1;
+        // 2.r[0]只是暂存单元，不是哨兵。当j<=0时，插入位置已找到。
+        int i,j;
+        for(i=dk+1;i<=L.length;++i){
+            if LT(L.r[i].key,L.r[i-dk].key){ 
+                // 需将L.r[i]插入有序增量子表
+                L.r[0]=L.r[i]; // 暂存在L.r[0]
+                for(j=i-dk;j>0&&LT(L.r[0].key,L.r[j].key);j-=dk)
+                    L.r[j+dk]=L.r[j]; // 记录后移，查找插入位置
+                L.r[j+dk]=L.r[0]; // 插入
+            }
+        }
+    }
+
+    ```
+
+2. 选择排序
+
+    ```c
+
+    ```
+
+3. 冒泡排序
+
+    ```c
+
+    void bubble_sort(int a[],int n) { 
+        // 将a中整数序列重新排列成自小至大有序的整数序列(起泡排序)
+        int i,j,t;
+        Status change = TRUE;
+        for(i=n-1;i>1&&change;--i){
+            change=FALSE;
+            for(j=0;j<i;++j)
+            if(a[j]>a[j+1]){
+                t=a[j];
+                a[j]=a[j+1];
+                a[j+1]=t;
+                change=TRUE;
+            }
+        }
+    }
+
+    ```
+
+4. 快速排序
+
+    ```c
+
+    ```
+
+5. 堆排序
+
+6. 归并排序
+
+7. 基数排序
 
 ### 各种排序算法的时空复杂度的简单分析。
 

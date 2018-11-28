@@ -52,7 +52,6 @@ Q.rear==Q.front;
 
 // 队列长度
 (Q.rear+MAXSIZE-Q.front)%MAXSIZE;
-
 ```
  
 ### 递归的基本概念和实现原理以及用递归的思想描述问题和书写算法的方法；
@@ -362,7 +361,6 @@ treenode *huffmanTree(int n) {  //n为叶子个数
     }
     return root;
 }
-
 ```
 
 ## （六）图
@@ -451,7 +449,6 @@ treenode *huffmanTree(int n) {  //n为叶子个数
         AdjList   vertices;         /*邻接表*/
         int   vexnum,  arcnum;          /*顶点数和边数*/
     } ALGraph;      /*ALGraph是以邻接表方式存储的图类型*/
-
     ```
 
 ### 图的两种搜索方法和图连的连通性；
@@ -485,13 +482,11 @@ int NextAdjVex(ALGraph G, int v, int w)
     else 
         return(0);
 }
-
 ```
 
 1. DFS(深度优先)
 
     ```c
-
     void DFSTraverse( Graph G ) 
     {
         bool visited[MAX] ;  //用于标识结点是否已被访问过     
@@ -516,7 +511,6 @@ int NextAdjVex(ALGraph G, int v, int w)
 2. BFS(广度优先)
 
     ```c
-
     void BFSTraverse( Graph G ) 
     { 
         bool visited[MAX] ;  //用于标识结点是否已被访问过     
@@ -542,7 +536,6 @@ int NextAdjVex(ALGraph G, int v, int w)
                 } // end while
             } // end if
     }
-
     ```
 
 ### 两种最小生成树的生成方法；
@@ -600,7 +593,6 @@ int NextAdjVex(ALGraph G, int v, int w)
 1. 插入排序
 
     ```c
-
     // 直接插入排序
     void InsertSort(int a[], int length){
         /*
@@ -665,19 +657,27 @@ int NextAdjVex(ALGraph G, int v, int w)
             }
         }
     }
-
     ```
 
 2. 选择排序
 
     ```c
-
+    void SelectSort(ElemType A[], int n){
+        for (i=0;i<n-1;i++){
+            int min = i;
+            for(j=i+1; j<n; j++){
+                if(A[j]<A[min])
+                    min = j;
+            }
+            if (min!=i)
+                swap(A[i], A[min]);
+        }
+    }
     ```
 
 3. 冒泡排序
 
     ```c
-
     void bubble_sort(int a[],int n) { 
         // 将a中整数序列重新排列成自小至大有序的整数序列(起泡排序)
         int i,j,t;
@@ -693,22 +693,122 @@ int NextAdjVex(ALGraph G, int v, int w)
             }
         }
     }
-
     ```
 
 4. 快速排序
 
     ```c
+    void QuickSort(int a[], int low, int high){
+        if (low<high){
+            int mid = partition(a, low,high);
+            QuickSort(a, low, mid-1);
+            QuickSort(a, mid+1, high);
+        }
+    }
 
+    int partition(int a[],int low,int high){
+        int pivot = a[low];
+        while(low<high){
+            while(a[high]>=pivot && low<high)
+                high--;
+            a[low] = a[high];
+            while(a[low]<=pivot && low<high)
+                low++;
+            a[high] = a[low];
+        }
+        a[low] = pivot;
+        return low;
+    }
     ```
 
 5. 堆排序
 
+    ```c
+    void AdjustDown(int a[], int k, int len){
+        a[0] = a[k];
+        for (int i=k*2; i<=len; i*=2){
+            if(i<len&&a[i]<a[i+1])
+                i++;
+            if(a[0]>=a[i])
+                break;
+            else{
+                a[k] = a[i];
+                k=i;
+            }
+        }
+        a[k] = a[0];
+    }
+
+    void HeapSort(int a[], int length){
+        // build max heap
+        for (int i=length/2; i>0; i--)
+            AdjustDown(a, i, length);
+
+        for (int i=length;i>1; i--){
+            int t=a[1];
+            a[1] = a[i];
+            a[i] = t;
+
+            AdjustDown(a,1, i-1);
+        }
+    }
+    ```
+
 6. 归并排序
+
+    ```c
+    void merge(int a[], int low, int mid, int high, int b[]){
+        for(int i=low; i<=high; i++)
+            b[i] = a[i];
+        int l,h,k;
+        for (k=low,l=low,h=mid+1; l<=mid&&h<=high;k++){
+            if(b[l]<=b[h])
+                a[k] = b[l++];
+            else
+                a[k] = b[h++];
+        }
+        while(l<=mid)
+            a[k++]=b[l++];
+        while(h<=high)
+            a[k++]=b[h++];
+    }
+
+    void MergeSort(int a[], int low, int high, int b[]){
+        if (low<high){
+            int mid = (low+high)/2;
+            MergeSort(a, low, mid,b);
+            MergeSort(a,mid+1, high, b);
+            merge(a, low, mid , high, b);
+        }
+    }
+
+    void MergeSort(int a[], int len){
+        int *b = new int[len];
+        MergeSort(a, 1, len, b);
+        delete []b;
+    }
+    ```
 
 7. 基数排序
 
+    将所有待比较数值（正整数）统一为同样的数字长度，数字较短的数前面补零。然后，从最低位开始，依次进行一次排序。这样从最低位排序一直到最高位排序完成以后，数列就变成一个有序序列。
+
+    时间复杂度:O(d(n+r))
+
+    其中d:d趟分配与收集;一趟分配:O(n);一趟收集:O(r)
+
 ### 各种排序算法的时空复杂度的简单分析。
+
+|排序名称|类别|稳定性|时间复杂度|空间复杂度|最少比较次数|最多比较次数|最少移动次数|最多移动次数|
+|:-----:|:-----:|:-----:|:-----:|:-----:|:----:|:----:|:----:|:----:|
+|插入排序|插入排序|稳定|o(n<sup>2</sup>)|O(1)|n-1|(n+2)(n-1)/2|0|(n+4)(n-1)/2|
+|希尔排序|插入排序|不稳定|O(n<sup>1.5</sup>)|o(1)|/|/|/|/
+|冒泡排序|交换排序|稳定|O(n<sup>2</sup>)|o(1)|n-1|n(n-1)/2|0|n(n-1)/2|
+|快速排序|交换排序|不稳定|O(n*log<sub>2</sub>n)|o(1)|O(n*log<sub>2</sub>n)|n(n-1)/2|O(n*log<sub>2</sub>n)|/|/|
+|选择排序|选择排序|**不稳定**|O(n<sup>2</sup>)|O(1)|n-1|n(n-1)/2|0|3(n-1)|
+|堆排序|选择排序|不稳定|O(n*log<sub>2</sub>n)|O(1)|O(n*log<sub>2</sub>n)|O(n*log<sub>2</sub>n)|/|/|
+|归并排序|归并排序|稳定|O(n*log<sub>2</sub>n)|O(n)|O(n*log<sub>2</sub>n)|O(n*log<sub>2</sub>n)|/|/|
+|基数排序|基数排序|稳定|O(d(n+rd))|O(rd)|0|0|0|0|
 
 ## （八）索引结构与散列
 

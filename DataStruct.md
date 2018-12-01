@@ -265,6 +265,10 @@ int BitDepth(BiTree T){
 | ltag| lchild|data|rchild|rtag|
 |:----:|:----:|:----:|:----:|:----:|
 | 1:指向节点的前驱| | | | 1:指向节点的后继|
+
+中序线索二叉树示例
+
+![线索二叉树](images/中序线索二叉树.png)
  
 ### 森林的定义和存储结构，森林的遍历等方法的实现；
 
@@ -801,7 +805,7 @@ int NextAdjVex(ALGraph G, int v, int w)
 
 |排序名称|类别|稳定性|时间复杂度|空间复杂度|最少比较次数|最多比较次数|最少移动次数|最多移动次数|
 |:-----:|:-----:|:-----:|:-----:|:-----:|:----:|:----:|:----:|:----:|
-|插入排序|插入排序|稳定|o(n<sup>2</sup>)|O(1)|n-1|(n+2)(n-1)/2|0|(n+4)(n-1)/2|
+|插入排序|插入排序|稳定|O(n<sup>2</sup>)|O(1)|n-1|(n+2)(n-1)/2|0|(n+4)(n-1)/2|
 |希尔排序|插入排序|不稳定|O(n<sup>1.5</sup>)|o(1)|/|/|/|/
 |冒泡排序|交换排序|稳定|O(n<sup>2</sup>)|o(1)|n-1|n(n-1)/2|0|n(n-1)/2|
 |快速排序|交换排序|不稳定|O(n*log<sub>2</sub>n)|o(1)|O(n*log<sub>2</sub>n)|n(n-1)/2|O(n*log<sub>2</sub>n)|/|/|
@@ -809,6 +813,18 @@ int NextAdjVex(ALGraph G, int v, int w)
 |堆排序|选择排序|不稳定|O(n*log<sub>2</sub>n)|O(1)|O(n*log<sub>2</sub>n)|O(n*log<sub>2</sub>n)|/|/|
 |归并排序|归并排序|稳定|O(n*log<sub>2</sub>n)|O(n)|O(n*log<sub>2</sub>n)|O(n*log<sub>2</sub>n)|/|/|
 |基数排序|基数排序|稳定|O(d(n+rd))|O(rd)|0|0|0|0|
+
+
+|排序名称|平均情况|最好情况|最坏情况|
+|:-----:|:-----:|:-----:|:-----:|
+|直接插入排序|O(n<sup>2</sup>)|O(n)|o(n<sup>2</sup>)|
+|希尔排序|O(n<sup>1.5</sup>)||
+|冒泡排序|O(n<sup>2</sup>)|O(n)|O(n<sup>2</sup>)|
+|快速排序|O(n*log<sub>2</sub>n)|O(n*log<sub>2</sub>n)|O(n<sup>2</sup>)
+|简单选择排序|O(n<sup>2</sup>)|O(n<sup>2</sup>)|O(n<sup>2</sup>)|
+|堆排序|O(n*log<sub>2</sub>n)|O(n*log<sub>2</sub>n)|O(n*log<sub>2</sub>n)|
+|归并排序|O(n*log<sub>2</sub>n)|O(n*log<sub>2</sub>n)|O(n*log<sub>2</sub>n)|
+|基数排序|O(d(n+rd))|O(d(n+rd))|O(d(n+rd))|
 
 ## （八）索引结构与散列
 

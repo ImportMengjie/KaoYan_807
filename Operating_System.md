@@ -277,11 +277,11 @@ SMP是一种紧耦合、共享存储的系统模型，特点是多个CPU使用�
     
    允许处于内核模式的进程被抢占
 
-#### 互斥
+#### 互斥(间接制约关系)
 
 是指某一资源同时只允许一个访问者对其进行访问，具有唯一性和排它性。但互斥无法限制访问者对资源的访问顺序，即访问是无序的。
 
-#### 同步
+#### 同步(直接制约关系)
 
 是指在互斥的基础上（大多数情况），通过其它机制实现访问者对资源的有序访问。在大多数情况下，同步已经实现了互斥，特别是所有写入资源的情况必定是互斥的。少数情况是指可以允许多个访问者同时访问资源。
 
@@ -383,7 +383,151 @@ monitor dp
 
 ### 进程互斥、同步和通信的各种算法；
 
+1. 生产者-消费者问题
+
+    ```c
+    semaphore mutex = 1;
+    semaphore empty = n;
+    semaphore full = 0;
+
+    producer(){
+        while(true){
+            produce an item in nextp;
+            wait(empty) // P操作,empty--
+
+            wait(mutex);
+            add nextp to buffer;
+            signal(mutex);
+
+            signal(full); // V操作,full++
+        }
+    }
+
+    consumer(){
+        while(true){
+            wait(full);
+
+            wait(mutex);
+            remove an item from buffer;
+            signal(mutex);
+
+            signal(empty);
+            consumer the item;
+        }
+    }
+    ```
+
+2. 读者-写者问题: 允许多个读者读,但只允许一个写者写
+
+    - 读者优先
+     
+        ```c
+        int count=0;
+        semaphore mutex=1; //保护count
+        semaphore rw=1; //保证读者和写者互斥地访问文件
+
+        writer(){
+            while(true){
+                wait(rw);
+                writing;
+                singal(rw);
+            }
+        }
+
+        reader(){
+            while(true){
+                wait(mutex);
+                if(cout==0)
+                    wait(rw);
+                cout++;
+                singal(mutex);
+
+                reading;
+
+                wait(mutex);
+                count--;
+                if(count==0)
+                    singal(rw);
+                singal(mutex);
+            }
+        }
+        ```
+
+    - 写者优先(公平算法)
+
+        ```c
+        int count=0;
+        semaphore mutex=1;
+        semaphore rw=1;
+        semaphore w=1;
+
+        writer(){
+            while(true){
+                wait(w);
+                wait(rw);
+                writing;
+                singal(rw);
+                singal(w);
+            }
+        }
+
+        reader(){
+            while(true){
+                wait(w); //无写进程时请求进入
+                wait(mutex);
+                if (count==0)
+                    wait(rw);
+                count++;
+                singal(mutex);
+                singal(w);
+
+                reading;
+
+                wait(mutex);
+                count--;
+                if (count==0)
+                    singal(rw);
+                singal(mutex);
+            }
+        }
+        ```
+
 ### 死锁的概念、死锁的原因和条件；
+
+#### 概念
+
+互相等待
+
+#### 死锁的必要条件
+
+产生死锁必须同时满足一下四个条件
+
+1. 互斥条件
+    
+    至少有一个资源处于非共享模式,即一次只能有一个进程使用
+
+2. 非抢占(不可剥夺条件)
+
+    资源不能被抢占,即资源只有在进程完成时后才释放.
+
+3. 占有并等待(请求和保持条件)
+
+    一个进程必须占有至少一个资源,并等待另一个资源,而该资源为其他进程所占有
+
+4. 循环等待条件
+
+    有一组等待进程{p0,p2,...,pn},p0等待的资源被p1占有,p1等待的资源被p2占有,...,pn的资源被p0占有
+
+
+#### 资源分配图
+
+![资源分配图](images/资源分配图.png)
+
+如果分配图有环,则**可能**存在死锁
+
+如果每个资源类型刚好有一个实例,那么有环一定死锁
+
+![资源分配图例子](images/资源分配图例子.png)
 
 ### 死锁的预防、避免和检测算法。
 

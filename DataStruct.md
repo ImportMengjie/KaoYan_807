@@ -727,6 +727,45 @@ int NextAdjVex(ALGraph G, int v, int w)
 
 5. 堆排序
 
+    算法步骤:
+    1. 构造初始堆
+
+        1. 假设给定无序序列结构如下
+
+        ![heapsort1](images/heapsort/heapsort1.png)
+
+        2. 此时我们从最后一个非叶子结点开始（叶结点自然不用调整，第一个非叶子结点 arr.length/2-1=5/2-1=1，也就是下面的6结点），从左至右，从下至上进行调整。
+
+        ![heapsort2](images/heapsort/heapsort2.png)
+
+        3. 找到第二个非叶节点4，由于[4,9,8]中9元素最大，4和9交换。
+
+        ![heapsort3](images/heapsort/heapsort3.png)
+
+        4. 这时，交换导致了子根[4,5,6]结构混乱，继续调整，[4,5,6]中6最大，交换4和6
+
+        ![heapsort4](images/heapsort/heapsort4.png)
+
+    2. 调整堆
+
+        1. 将堆顶元素9和末尾元素4进行交换
+
+        ![heapsort5](images/heapsort/heapsort5.png)
+
+        2. 重新调整结构，使其继续满足堆定义
+
+        ![heapsort6](images/heapsort/heapsort6.png)
+
+        3. 再将堆顶元素8与末尾元素5进行交换，得到第二大元素8.
+
+        ![heapsort7](images/heapsort/heapsort7.png)
+
+        4. 后续过程，继续进行调整，交换，如此反复进行，最终使得整个序列有序
+
+        ![heapsort8](images/heapsort/heapsort8.png)
+
+    > https://www.cnblogs.com/chengxiao/p/6129630.html
+
     ```c
     void AdjustDown(int a[], int k, int len){
         a[0] = a[k];

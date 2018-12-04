@@ -308,6 +308,8 @@ int BitDepth(BiTree T){
 ![huffman](images/huffman1.bmp)
 ![huffman](images/huffman2.bmp)
 
+13+9=22
+
 ### AVL树的定义和特点以及AVL树调整操作的实现原理；
 
 #### AVL树的定义
@@ -329,6 +331,7 @@ int BitDepth(BiTree T){
     ![RR](images/AVLtree_RR.png)
 
 4. RL型
+
 
     ![RL](images/AVLtree_RL.png)
 

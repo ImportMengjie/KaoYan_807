@@ -850,7 +850,7 @@ int NextAdjVex(ALGraph G, int v, int w)
 |插入排序|插入排序|稳定|O(n<sup>2</sup>)|O(1)|n-1|(n+2)(n-1)/2|0|(n+4)(n-1)/2|
 |希尔排序|插入排序|不稳定|O(n<sup>1.5</sup>)|o(1)|/|/|/|/
 |冒泡排序|交换排序|稳定|O(n<sup>2</sup>)|o(1)|n-1|n(n-1)/2|0|n(n-1)/2|
-|快速排序|交换排序|不稳定|O(n*log<sub>2</sub>n)|o(1)|O(n*log<sub>2</sub>n)|n(n-1)/2|O(n*log<sub>2</sub>n)|/|/|
+|快速排序|交换排序|不稳定|O(n*log<sub>2</sub>n)|o(logn)|O(n*log<sub>2</sub>n)|n(n-1)/2|O(n*log<sub>2</sub>n)|/|/|
 |选择排序|选择排序|**不稳定**|O(n<sup>2</sup>)|O(1)|n-1|n(n-1)/2|0|3(n-1)|
 |堆排序|选择排序|不稳定|O(n*log<sub>2</sub>n)|O(1)|O(n*log<sub>2</sub>n)|O(n*log<sub>2</sub>n)|/|/|
 |归并排序|归并排序|稳定|O(n*log<sub>2</sub>n)|O(n)|O(n*log<sub>2</sub>n)|O(n*log<sub>2</sub>n)|/|/|
